@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #content-container {
+            text-align: center;
+        }
+
+        .box {
+            margin-top: 10px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="content-container">
+    <h1>Add User and Secret Link</h1>
+
+    <form id="addUserForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+
+        <div class="box">
+            <label for="link">Link:</label>
+            <input type="text" id="link" name="link" required>
+        </div>
+
+        <div class="box">
+            <button type="button" onclick="addUser()">Add</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function addUser() {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const link = document.getElementById('link').value;
+
+        // Send a POST request to your server to add the user
+        fetch('http://localhost:5000/addUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, email, link }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Optionally, you can reset the form after a successful addition
+            document.getElementById('addUserForm').reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error adding user. Please try again.');
+        });
+    }
+</script>
+
+</body>
+</html>
