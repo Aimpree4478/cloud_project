@@ -16,8 +16,15 @@ const db = mysql.createConnection({
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    const filePath = path.join(__dirname, 'index.html');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).send('Internal Server Error');
+        }
+    });
 });
+
 
 app.get('/users', (req, res) => {
     const sql = "SELECT * FROM users";
@@ -37,7 +44,7 @@ app.post('/addUser', (req, res) => {
     });
 });
 
-const port = 5000;
+const port = 500;
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
