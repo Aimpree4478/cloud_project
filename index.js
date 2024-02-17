@@ -16,7 +16,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'indext.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/users', (req, res) => {
@@ -28,7 +28,7 @@ app.get('/users', (req, res) => {
 });
 
 app.post('/addUser', (req, res) => {
-    const { username, email } = req.body; // Assuming your request body contains username and email fields
+    const { username, email, link } = req.body; // Assuming your request body contains username, email, and link fields
 
     const sql = "INSERT INTO users (username, email, link) VALUES (?, ?, ?)";
     db.query(sql, [username, email, link], (err, result) => {
@@ -37,6 +37,7 @@ app.post('/addUser', (req, res) => {
     });
 });
 
-app.listen(500, () => {
-    console.log("Server is listening on port 5000");
+const port = 5000;
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
